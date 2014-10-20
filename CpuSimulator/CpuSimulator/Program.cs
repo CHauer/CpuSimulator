@@ -32,14 +32,25 @@ namespace CpuSimulator
                 programFile = ReadProgramFilePath();
             }
 
+            //create instance of the cpu controler
             CpuControler controller = new CpuControler();
+
             //For redirecting output to file
             controller.Output = Console.Out;
             
-            //Load Programm 
+            //Load Programm rom object
             var program = new ProgramROM();
-            program.ReadProgramm(programFile);
-            //TODO Error Handling
+            try
+            {
+                //read programm instructions in programmrom
+                program.ReadProgramm(programFile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+                return;
+            }
 
             //load programm into controller
             controller.ProgramRom = program;

@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ALU.cs" />
     <Compile Include="CpuControler.cs" />
+    <Compile Include="InstructionTyp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramROM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
