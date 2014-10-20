@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CpuSimulator.ProgramROM">
-    <Position X="4.75" Y="3" Width="1.5" />
+    <Position X="4.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AiAAAAAAAAAAIQAAAAAQAAAAAAACAAAACAAAAAAAAAA=</HashCode>
       <FileName>ProgramROM.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.CpuControler">
     <Position X="4.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAgAAAABAAAIAAAAAAAAg=</HashCode>
+      <HashCode>AAAAAAAAAAAACQAAAAEIAAAAgAAAABAAAIAQQAAAAQg=</HashCode>
       <FileName>CpuControler.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -21,7 +21,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="CpuSimulator.ALU">
-    <Position X="2" Y="3" Width="1.5" />
+    <Position X="1.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAQA=</HashCode>
       <FileName>ALU.cs</FileName>
@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.RAM">
-    <Position X="7.25" Y="3" Width="1.5" />
+    <Position X="8.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>RAM.cs</FileName>
@@ -37,7 +37,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.Stack">
-    <Position X="9.5" Y="3" Width="1.5" />
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Stack.cs</FileName>

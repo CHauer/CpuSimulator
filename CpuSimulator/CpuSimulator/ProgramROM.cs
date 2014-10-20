@@ -8,7 +8,7 @@ namespace CpuSimulator
 {
     public class ProgramROM
     {
-        private string[] commands;
+        private string[] instructions;
         private string programFilePath;
 
         private int pc;
@@ -26,7 +26,7 @@ namespace CpuSimulator
         /// </summary>
         private void Initialize()
         {
-            commands = new string[256];
+            instructions = new string[256];
             PC = 0;
         }
 
@@ -52,14 +52,24 @@ namespace CpuSimulator
 
             if (!String.IsNullOrEmpty(content))
             {
-                var lines = content.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = content.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                if (lines.Length > 256)
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    lines[i] = lines[i].Trim();
+
+                    if (lines[i].Equals(String.Empty))
+                    {
+                        lines.RemoveAt(i);
+                    }
+                }
+
+                if (lines.Count > 256)
                 {
                     throw new InvalidDataException("Programm File ist zu lang! Maximal 256 Befehle sind erlaubt!");
                 }
 
-                Array.Copy(lines, commands, lines.Length);
+                Array.Copy(lines.ToArray(), instructions, lines.Count);
             }
             else
             {
@@ -67,6 +77,14 @@ namespace CpuSimulator
             }
         }
 
+        /// <summary>
+        /// Gets or sets the programm counter.
+        /// Points to the next readable instruction in IR.
+        /// </summary>
+        /// <value>
+        /// The pc.
+        /// </value>
+        /// <exception cref="System.ArgumentOutOfRangeException">value</exception>
         public int PC
         {
             get
@@ -83,11 +101,17 @@ namespace CpuSimulator
             }
         }
 
+        /// <summary>
+        /// Gets the current instruction on the position of the ProgrammCounter PC.
+        /// </summary>
+        /// <value>
+        /// The instruction.
+        /// </value>
         public String IR
         {
             get
             {
-                return commands[PC];
+                return instructions[PC];
             }
         }
     }
