@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CpuSimulator.Components
+namespace CpuSimulator.Instructions
 {
     public enum InstructionGroupTyp : int
     {

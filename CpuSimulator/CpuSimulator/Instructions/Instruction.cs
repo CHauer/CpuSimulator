@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CpuSimulator.Components
+namespace CpuSimulator.Instructions
 {
     public class Instruction
     {
+        private Parameter parameterOne;
+
         public Instruction()
         {
-            Parameters = new List<Parameter>();
         }
 
         public string PlainInstruction
@@ -53,10 +54,35 @@ namespace CpuSimulator.Components
             }
         }
 
-        public List<Parameter> Parameters
+
+        Parameter SourceParameter
         {
             get;
-            private set; 
+            set;
+        }
+
+        public Parameter TargetParameter
+        {
+            get
+            {
+                return parameterOne;
+            }
+            set
+            {
+                parameterOne = value;
+            }
+        }
+
+        public Parameter Parameter
+        {
+            get
+            {
+                return parameterOne;
+            }
+            set
+            {
+                parameterOne = value;
+            }
         }
     }
 }

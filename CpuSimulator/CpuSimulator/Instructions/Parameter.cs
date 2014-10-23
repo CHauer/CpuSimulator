@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CpuSimulator.Components
+namespace CpuSimulator.Instructions
 {
     public class Parameter
     {

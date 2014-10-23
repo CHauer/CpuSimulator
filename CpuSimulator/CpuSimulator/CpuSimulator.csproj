@@ -47,11 +47,11 @@
   <ItemGroup>
     <Compile Include="Components\ALU.cs" />
     <Compile Include="Components\CpuControler.cs" />
-    <Compile Include="Components\Instruction.cs" />
-    <Compile Include="Components\InstructionGroupTyp.cs" />
-    <Compile Include="Components\InstructionTyp.cs" />
+    <Compile Include="Instructions\Instruction.cs" />
+    <Compile Include="Instructions\InstructionGroupTyp.cs" />
+    <Compile Include="Instructions\InstructionTyp.cs" />
     <Compile Include="Components\Decoder.cs" />
-    <Compile Include="Components\Parameter.cs" />
+    <Compile Include="Instructions\Parameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Components\ProgramROM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
