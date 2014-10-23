@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using CpuSimulator.Instructions;
 
 namespace CpuSimulator.Components
 {
@@ -17,6 +18,11 @@ namespace CpuSimulator.Components
         /// </summary>
         private string currentUnDecodedInstruction;
 
+        /// <summary>
+        /// The current cpu instruction
+        /// </summary>
+        private Instruction currentInstruction;
+
         #region Constructor
 
         /// <summary>
@@ -31,12 +37,16 @@ namespace CpuSimulator.Components
 
         #region Initalize
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         private void Initialize()
         {
             cpuRun = true;
             Alu = new ALU();
             Ram = new RAM();
             Stack = new Stack();
+            Decoder = new Decoder();
         }
 
         #endregion
@@ -92,6 +102,18 @@ namespace CpuSimulator.Components
         }
 
         /// <summary>
+        /// Gets the decoder.
+        /// </summary>
+        /// <value>
+        /// The decoder.
+        /// </value>
+        public Decoder Decoder
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets or sets the output.
         /// </summary>
         /// <value>
@@ -131,9 +153,12 @@ namespace CpuSimulator.Components
             }
         }
 
+        /// <summary>
+        /// Step 1 - Fetch new instruction from ProgramRom
+        /// </summary>
+        /// <returns></returns>
         private bool Fetch()
-        {
-            
+        { 
             try
             {
                 //current instruction for programmROM
@@ -151,62 +176,45 @@ namespace CpuSimulator.Components
             return true;
         }
 
+        /// <summary>
+        /// Step 2 - Decodes current Instruction
+        /// </summary>
+        /// <returns></returns>
         private bool Decode()
         {
-            String instructionPart;
-            String[] parameters;
-            InstructionTyp instruction;
-
-            if (String.IsNullOrEmpty(currentUnDecodedInstruction))
-            {
-                //TODO exception Handling
-                return false;
-            }
-            else
-            {
-                if (currentUnDecodedInstruction.Contains(' '))
-                {
-                    var parts = currentUnDecodedInstruction.Split(new char[] { ' ' });
-                    instructionPart = parts[0];
-
-                    if (parts.Length > 1)
-                    {
-                        //parameters = parts.
-                    }
-                }
-                else
-                {
-                    instructionPart = currentUnDecodedInstruction;
-                }
-            }
-
             try
             {
-                instruction = (InstructionTyp)Enum.Parse(typeof(InstructionTyp), currentUnDecodedInstruction);
+                currentInstruction = Decoder.DecodeInstruction(currentUnDecodedInstruction);
+                if (currentInstruction == null)
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
-                //TODO Error handling
+                //TODO errorlogging
                 return false;
             }
 
-            switch (instruction)
+            //Reset MAR
+            Ram.MAR = -1;
+
+            if (currentInstruction.GroupType == InstructionGroupTyp.Arithmetic)
             {
+                //Prepare input for alu
+                switch (currentInstruction.Type)
+                {
+                }
+
+            }
+            else if (currentInstruction.GroupType == InstructionGroupTyp.Processor)
+            {
+                //prepare MAR for RAM Access
 
             }
 
             return true;
         }
 
-        public Decoder Decoder
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
     }
 }

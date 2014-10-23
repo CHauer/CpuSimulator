@@ -64,21 +64,19 @@ namespace CpuSimulator.Components
         public Instruction DecodeInstruction(string undecoded)
         {
             String instructionPart = string.Empty;
-            String parameterPart;
             String[] parameters = new String[0];
             InstructionTyp irCode;
 
             if (String.IsNullOrEmpty(undecoded))
             {
-                //TODO exception Handling
-                return null;
+                throw new ArgumentNullException("undecoded");
             }
 
             if (undecoded.Contains(' '))
             {
                 instructionPart = undecoded.Substring(0, undecoded.IndexOf(' '));
 
-                parameterPart = undecoded.Substring(undecoded.IndexOf(' ') + 1).Trim();
+                String parameterPart = undecoded.Substring(undecoded.IndexOf(' ') + 1).Trim();
 
                 parameters = parameterPart.Split(new char[] { ',' });
             }
@@ -89,12 +87,11 @@ namespace CpuSimulator.Components
             }
             catch (Exception ex)
             {
-                //TODO Error handling
-                return null;
+                throw new InvalidOperationException(String.Format("Unknown Command {0}.", instructionPart));
             }
 
-            //TODO Create Instruction obejct and set parameters - check if instruction is valid 
-            var instrcution = new Instruction()
+            //Create Instruction obejct and set parameters
+            var instruction = new Instruction()
             {
                 PlainInstruction = undecoded,
                 Type = irCode
@@ -102,13 +99,59 @@ namespace CpuSimulator.Components
 
             if (!instructionParameter[irCode].Equals(parameters.Length))
             {
-                //TODO error handling
-                return null;
+                throw new InvalidOperationException(String.Format("Wrong count of parameters for command {0} - expected {1}.", 
+                    instructionPart, instructionParameter[irCode]));
             }
 
+            if (instructionParameter[irCode] == 1)
+            {
+                instruction.Parameter = CreateParameter(parameters[0]);
+            }
+            else
+            {
+                instruction.TargetParameter = CreateParameter(parameters[0]);
+                instruction.SourceParameter = CreateParameter(parameters[1]);
+            }
+
+            //TODO check if instruction is valid 
+            //ValidateInstruction();
 
 
             return null;
+        }
+
+        private bool ValidateInstruction(Instruction instruction)
+        {
+            return false;
+        }
+
+        private Parameter CreateParameter(string parameter )
+        {
+            int content = 0;
+            Parameter para = new Parameter();
+
+            if (parameter.StartsWith("#"))
+            {
+                para.Type = ParameterTyp.Data;
+                para.Content = Convert.ToInt32(parameter.Substring(1));
+            }
+            else if (parameter.StartsWith("$"))
+            {
+                para.Type = ParameterTyp.StackOffset;
+                para.Content = Convert.ToInt32(parameter.Substring(1));
+            }
+            else if (parameter.StartsWith("@"))
+            {
+                para.Type = ParameterTyp.Address;
+                para.Content = Convert.ToInt32(parameter.Substring(1));
+            }
+            else
+            {
+                para.Type = ParameterTyp.Register;
+                para.Content = Char.ToUpper(parameter[0]);
+            }
+
+            return para;
         }
 
     }

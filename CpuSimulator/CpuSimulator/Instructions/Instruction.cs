@@ -54,8 +54,7 @@ namespace CpuSimulator.Instructions
             }
         }
 
-
-        Parameter SourceParameter
+        public Parameter SourceParameter
         {
             get;
             set;
