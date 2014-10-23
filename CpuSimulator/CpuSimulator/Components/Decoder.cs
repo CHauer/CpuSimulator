@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using CpuSimulator.Instructions;
 
 namespace CpuSimulator.Components
@@ -12,6 +13,7 @@ namespace CpuSimulator.Components
         /// The instruction parameter
         /// </summary>
         private Dictionary<InstructionTyp, int> instructionParameter;
+        private Dictionary<InstructionTyp, string> instructionValidationPattern;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Decoder"/> class.
@@ -59,8 +61,43 @@ namespace CpuSimulator.Components
                 {InstructionTyp.RRC,            2},
                 {InstructionTyp.RLC,            2},
             };
+
+            instructionValidationPattern = new Dictionary<InstructionTyp, string>()
+            {
+               
+                {InstructionTyp.PUSH,           @"PUSH\s+(\#\d+|[A-H])"},
+                {InstructionTyp.POP,            @"POP\s+[A-H]"},
+                {InstructionTyp.CALL,           @"CALL\s+\@\d+"},
+                {InstructionTyp.JMP,            @"JMP\s+\@\d+"},
+                {InstructionTyp.JR,             @"JR\s+\#\d+"},
+                {InstructionTyp.JRC,            @"JRC\s+\#\d+"},
+                {InstructionTyp.JRZ,            @"JRZ\s+\#\d+"},
+                {InstructionTyp.JRN,            @"JRN\s+\#\d+"},
+
+                {InstructionTyp.MOV,           @"MOV\s+([A-H]|\@\d+)\s*,\s*(\#\d+|[A-H]|\@\d+|\$\-\d+)"},
+                {InstructionTyp.MOVI,          @"MOVI\s+(\[[A-H]\]\s*,\s*(\#\d+|[A-H])|[A-H]\s*,\s*\[[A-H]\])"},
+                {InstructionTyp.AND,           @"AND\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.OR,            @"OR\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.XOR,           @"XOR\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.ADD,           @"ADD\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.SUB,           @"SUB\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.SHR,           @"SHR\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.SHL,           @"SHL\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.RR,            @"RR\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.RL,            @"RL\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.RRC,           @"RRC\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.RLC,           @"RLC\s+[A-H]\s*,\s*[A-H]"},
+            };
         }
 
+        /// <summary>
+        /// Decodes the given instruction line.
+        /// </summary>
+        /// <param name="undecoded">The undecoded.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">undecoded</exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// </exception>
         public Instruction DecodeInstruction(string undecoded)
         {
             String instructionPart = string.Empty;
@@ -80,6 +117,10 @@ namespace CpuSimulator.Components
 
                 parameters = parameterPart.Split(new char[] { ',' });
             }
+            else
+            {
+                instructionPart = undecoded;
+            }
 
             try
             {
@@ -90,6 +131,12 @@ namespace CpuSimulator.Components
                 throw new InvalidOperationException(String.Format("Unknown Command {0}.", instructionPart));
             }
 
+            //check if instruction is valid 
+            if (!ValidateInstruction(irCode, undecoded))
+            {
+                return null;
+            }
+
             //Create Instruction obejct and set parameters
             var instruction = new Instruction()
             {
@@ -97,58 +144,88 @@ namespace CpuSimulator.Components
                 Type = irCode
             };
 
-            if (!instructionParameter[irCode].Equals(parameters.Length))
+            if (instructionParameter[irCode] != parameters.Length)
             {
                 throw new InvalidOperationException(String.Format("Wrong count of parameters for command {0} - expected {1}.", 
                     instructionPart, instructionParameter[irCode]));
             }
 
-            if (instructionParameter[irCode] == 1)
+            if (instructionParameter[irCode] > 0)
             {
-                instruction.Parameter = CreateParameter(parameters[0]);
+                if (instructionParameter[irCode] == 1)
+                {
+                    instruction.ParameterOne = CreateParameter(parameters[0].Trim());
+                }
+                else
+                {
+                    instruction.TargetParameter = CreateParameter(parameters[0].Trim());
+                    instruction.SourceParameter = CreateParameter(parameters[1].Trim());
+                }
             }
-            else
-            {
-                instruction.TargetParameter = CreateParameter(parameters[0]);
-                instruction.SourceParameter = CreateParameter(parameters[1]);
-            }
 
-            //TODO check if instruction is valid 
-            //ValidateInstruction();
-
-
-            return null;
+            return instruction;
         }
 
-        private bool ValidateInstruction(Instruction instruction)
+        /// <summary>
+        /// Validates the instruction.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="undecoded">The undecoded.</param>
+        /// <returns></returns>
+        private bool ValidateInstruction(InstructionTyp type, string undecoded)
         {
-            return false;
+            if (instructionParameter[type] == 0)
+            {
+                return true;
+            }
+
+            try
+            {
+                if (!Regex.IsMatch(undecoded.Trim(), instructionValidationPattern[type]))
+                {
+                    return false;
+                }
+            }
+            catch { return false; }
+
+            return true;
         }
 
-        private Parameter CreateParameter(string parameter )
+        /// <summary>
+        /// Creates the parameter.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns></returns>
+        private Parameter CreateParameter(string parameter)
         {
             int content = 0;
             Parameter para = new Parameter();
+
 
             if (parameter.StartsWith("#"))
             {
                 para.Type = ParameterTyp.Data;
                 para.Content = Convert.ToInt32(parameter.Substring(1));
             }
-            else if (parameter.StartsWith("$"))
+            else if (parameter.StartsWith("$-"))
             {
                 para.Type = ParameterTyp.StackOffset;
-                para.Content = Convert.ToInt32(parameter.Substring(1));
+                para.Content = Convert.ToInt32(parameter.Substring(2));
             }
             else if (parameter.StartsWith("@"))
             {
                 para.Type = ParameterTyp.Address;
                 para.Content = Convert.ToInt32(parameter.Substring(1));
             }
+            else if (parameter.StartsWith("["))
+            {
+                para.Type = ParameterTyp.RegisterAddress;
+                para.Register = Char.ToUpper(parameter[1]);
+            }
             else
             {
                 para.Type = ParameterTyp.Register;
-                para.Content = Char.ToUpper(parameter[0]);
+                para.Register = Char.ToUpper(parameter[0]);
             }
 
             return para;

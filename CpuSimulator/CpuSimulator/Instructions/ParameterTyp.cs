@@ -10,6 +10,7 @@ namespace CpuSimulator.Instructions
         Data,
         StackOffset,
         Address,
-        Register
+        Register,
+        RegisterAddress
     }
 }
