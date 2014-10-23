@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace CpuSimulator
+﻿namespace CpuSimulator.Components
 {
-    public class RAM
+    public class Stack
     {
-        public int MAR
+        public int BP
         {
             get
             {
@@ -18,7 +13,7 @@ namespace CpuSimulator
             }
         }
 
-        public int MDR
+        public int SP
         {
             get
             {

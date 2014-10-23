@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
-namespace CpuSimulator
+namespace CpuSimulator.Components
 {
     public class ProgramROM
     {

@@ -45,14 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ALU.cs" />
-    <Compile Include="CpuControler.cs" />
-    <Compile Include="InstructionTyp.cs" />
+    <Compile Include="Components\ALU.cs" />
+    <Compile Include="Components\CpuControler.cs" />
+    <Compile Include="Components\Instruction.cs" />
+    <Compile Include="Components\InstructionGroupTyp.cs" />
+    <Compile Include="Components\InstructionTyp.cs" />
+    <Compile Include="Components\Decoder.cs" />
+    <Compile Include="Components\Parameter.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProgramROM.cs" />
+    <Compile Include="Components\ProgramROM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RAM.cs" />
-    <Compile Include="Stack.cs" />
+    <Compile Include="Components\RAM.cs" />
+    <Compile Include="Components\Stack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

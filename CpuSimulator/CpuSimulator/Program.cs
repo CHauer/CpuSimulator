@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CpuSimulator.Components;
 
 namespace CpuSimulator
 {
@@ -55,8 +56,16 @@ namespace CpuSimulator
             //load programm into controller
             controller.ProgramRom = program;
 
-            //Start Programm, Cpu
-            controller.RunCpu();
+            try
+            {
+                //Start Programm, Cpu
+                controller.RunCpu();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
         }
 
         /// <summary>

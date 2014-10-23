@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
-namespace CpuSimulator
+namespace CpuSimulator.Components
 {
     public class CpuControler
     {
@@ -107,7 +105,7 @@ namespace CpuSimulator
         {
             if (ProgramRom == null)
             {
-                return;
+                throw new InvalidOperationException("ProgrammROM has to be initialized before of the CPU Start.");
             }
 
             while (cpuRun)
@@ -198,6 +196,17 @@ namespace CpuSimulator
             }
 
             return true;
+        }
+
+        public Decoder Decoder
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
         }
     }
 }
