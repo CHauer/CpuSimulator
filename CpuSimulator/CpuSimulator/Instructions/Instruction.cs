@@ -8,6 +8,7 @@ namespace CpuSimulator.Instructions
     public class Instruction
     {
         private Parameter parameterOne;
+        private Parameter parameterTwo;
 
         public Instruction()
         {
@@ -56,8 +57,14 @@ namespace CpuSimulator.Instructions
 
         public Parameter SourceParameter
         {
-            get;
-            set;
+            get
+            {
+                return parameterTwo;
+            }
+            set
+            {
+                parameterTwo = value;
+            }
         }
 
         public Parameter TargetParameter
@@ -72,7 +79,7 @@ namespace CpuSimulator.Instructions
             }
         }
 
-        public Parameter Parameter
+        public Parameter ParameterOne
         {
             get
             {
@@ -81,6 +88,18 @@ namespace CpuSimulator.Instructions
             set
             {
                 parameterOne = value;
+            }
+        }
+
+        public Parameter ParameterTwo
+        {
+            get
+            {
+                return parameterTwo;
+            }
+            set
+            {
+                parameterTwo = value;
             }
         }
     }

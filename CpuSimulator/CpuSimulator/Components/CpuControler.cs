@@ -145,11 +145,18 @@ namespace CpuSimulator.Components
                 }
 
                 //RAM Read
-
+                //if(!ReadRAM()){
+                //}
 
                 //Execute
+                if (!Execute())
+                {
+
+                }
 
                 //RAM Write
+                //if(!ReadWrite()){
+                //}
             }
         }
 
@@ -199,21 +206,32 @@ namespace CpuSimulator.Components
             //Reset MAR
             Ram.MAR = -1;
 
-            if (currentInstruction.GroupType == InstructionGroupTyp.Arithmetic)
-            {
-                //Prepare input for alu
-                switch (currentInstruction.Type)
-                {
-                }
+            //TODO Init ALU Registers and MAR
+            //if (currentInstruction.GroupType == InstructionGroupTyp.Arithmetic)
+            //{
+            //    //Prepare input for alu
+            //    switch (currentInstruction.Type)
+            //    {
 
-            }
-            else if (currentInstruction.GroupType == InstructionGroupTyp.Processor)
-            {
-                //prepare MAR for RAM Access
+            //    }
+                
+            //}
+            //else if (currentInstruction.GroupType == InstructionGroupTyp.Processor)
+            //{
+            //    //prepare MAR for RAM Access
 
-            }
+            //}
 
             return true;
+        }
+
+        /// <summary>
+        /// Step 4 - Execute Instruction
+        /// </summary>
+        /// <returns></returns>
+        private bool Execute()
+        {
+            throw new NotImplementedException();
         }
 
     }

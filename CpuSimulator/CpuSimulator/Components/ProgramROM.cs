@@ -50,17 +50,8 @@ namespace CpuSimulator.Components
 
             if (!String.IsNullOrEmpty(content))
             {
-                var lines = content.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                for (int i = 0; i < lines.Count; i++)
-                {
-                    lines[i] = lines[i].Trim();
-
-                    if (lines[i].Equals(String.Empty))
-                    {
-                        lines.RemoveAt(i);
-                    }
-                }
+                var linesRaw = content.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var lines = linesRaw.Where(line => !String.IsNullOrEmpty(line)).Select(line => line.Trim()).ToList(); 
 
                 if (lines.Count > 256)
                 {

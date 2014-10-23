@@ -82,6 +82,7 @@
 
         /// <summary>
         /// CALL @adr            <PUSH PC; PC = adr>
+        ///                     @adr Adresse
         /// </summary>
         CALL                = 25,
 
