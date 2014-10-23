@@ -9,13 +9,20 @@ namespace CpuSimulator.Instructions
     {
         public int Content
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
+            get;
+            set;
+        }
+
+        public ParameterTyp Type
+        {
+            get;
+            set;
+        }
+
+        public char Register
+        {
+            get;
+            set;
         }
     }
 }
