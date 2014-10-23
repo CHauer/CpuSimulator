@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CpuSimulator.Instructions;
 
 namespace CpuSimulator.Components
 {
@@ -62,10 +63,10 @@ namespace CpuSimulator.Components
 
         public Instruction DecodeInstruction(string undecoded)
         {
-            String instructionPart;
-            String[] parameters = null;
-            InstructionTyp instruction;
-            int irCode;
+            String instructionPart = string.Empty;
+            String parameterPart;
+            String[] parameters = new String[0];
+            InstructionTyp irCode;
 
             if (String.IsNullOrEmpty(undecoded))
             {
@@ -73,19 +74,18 @@ namespace CpuSimulator.Components
                 return null;
             }
 
-            var parts = undecoded.Split(new char[] { ' ' });
-
-            instructionPart = parts[0];
-
-            if (parts.Length > 1)
+            if (undecoded.Contains(' '))
             {
-                parameters = new String[parts.Length - 1];
-                Array.Copy(parts, 1, parameters, 0, parameters.Length);
+                instructionPart = undecoded.Substring(0, undecoded.IndexOf(' '));
+
+                parameterPart = undecoded.Substring(undecoded.IndexOf(' ') + 1).Trim();
+
+                parameters = parameterPart.Split(new char[] { ',' });
             }
 
             try
             {
-                instruction = (InstructionTyp)Enum.Parse(typeof(InstructionTyp), instructionPart);
+                irCode = (InstructionTyp)Enum.Parse(typeof(InstructionTyp), instructionPart);
             }
             catch (Exception ex)
             {
@@ -93,7 +93,20 @@ namespace CpuSimulator.Components
                 return null;
             }
 
-            irCode = (int)instruction;
+            //TODO Create Instruction obejct and set parameters - check if instruction is valid 
+            var instrcution = new Instruction()
+            {
+                PlainInstruction = undecoded,
+                Type = irCode
+            };
+
+            if (!instructionParameter[irCode].Equals(parameters.Length))
+            {
+                //TODO error handling
+                return null;
+            }
+
+
 
             return null;
         }

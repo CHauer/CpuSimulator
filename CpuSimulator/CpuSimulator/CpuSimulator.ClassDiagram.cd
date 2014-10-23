@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CpuSimulator.Components.ALU">
-    <Position X="4.5" Y="4.5" Width="1.5" />
+    <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAQA=</HashCode>
       <FileName>Components\ALU.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.Components.CpuControler">
-    <Position X="7.5" Y="2.25" Width="1.5" />
+    <Position X="3.5" Y="2.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -26,43 +26,80 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="CpuSimulator.Components.ProgramROM">
-    <Position X="7.75" Y="5.5" Width="1.5" />
+    <Position X="3.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AiAAAAAAAAAAIQAAAAAQAAAAAAACAAAACAAAAAAAAAA=</HashCode>
       <FileName>Components\ProgramROM.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.Components.RAM">
-    <Position X="4.5" Y="2.5" Width="1.5" />
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\RAM.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CpuSimulator.Components.Stack">
-    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Position X="3.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\Stack.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="System.IO.TextWriter" Collapsed="true">
-    <Position X="10.5" Y="2.5" Width="1.5" />
+    <Position X="6.5" Y="2.5" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="CpuSimulator.Components.Decoder" Collapsed="true">
-    <Position X="10.5" Y="3.75" Width="1.5" />
+  <Class Name="CpuSimulator.Components.Decoder">
+    <Position X="6.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAgAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Components\Decoder.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="CpuSimulator.Components.InstructionTyp" Collapsed="true">
-    <Position X="16.75" Y="0.5" Width="1.5" />
+  <Class Name="CpuSimulator.Instructions.Instruction">
+    <Position X="9" Y="0.75" Width="1.5" />
+    <AssociationLine Name="SourceParameter" Type="CpuSimulator.Instructions.Parameter">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.079" Y="0.581" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="TargetParameter" Type="CpuSimulator.Instructions.Parameter">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.328" Y="0.602" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAABQAAgAAAAAA=</HashCode>
+      <FileName>Instructions\Instruction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SourceParameter" />
+      <Property Name="TargetParameter" />
+      <Property Name="Type" />
+      <Property Name="GroupType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CpuSimulator.Instructions.Parameter">
+    <Position X="9" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Instructions\Parameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CpuSimulator.Instructions.InstructionTyp" Collapsed="true">
+    <Position X="11.75" Y="0.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAEAQACASAgIAAAACAAACgQExIAAAAAAAAAAAADQE=</HashCode>
-      <FileName>Components\InstructionTyp.cs</FileName>
+      <FileName>Instructions\InstructionTyp.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="CpuSimulator.Instructions.InstructionGroupTyp" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAABIAAAAAAAAAAAAAAAAAAEEAAA=</HashCode>
+      <FileName>Instructions\InstructionGroupTyp.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

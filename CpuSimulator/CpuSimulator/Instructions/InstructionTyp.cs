@@ -1,4 +1,4 @@
-﻿namespace CpuSimulator.Components
+﻿namespace CpuSimulator.Instructions
 {
     public enum InstructionTyp : int
     {
