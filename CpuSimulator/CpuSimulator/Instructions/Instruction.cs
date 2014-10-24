@@ -102,5 +102,25 @@ namespace CpuSimulator.Instructions
                 parameterTwo = value;
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            //Instruction
+            builder.AppendLine(String.Format(@"    - Instructiontyp: {0} ({1})", Type.ToString("g"), (int)Type));
+
+            if (parameterOne != null)
+            {
+                builder.Append(String.Format("       Parameter 1: {0}", parameterOne.ToString()));
+            }
+            if (parameterTwo != null)
+            {
+                builder.AppendLine();
+                builder.Append(String.Format("       Parameter 2: {0}", parameterTwo.ToString()));
+            }
+
+            return builder.ToString();
+        }
     }
 }
