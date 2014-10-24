@@ -164,7 +164,7 @@
         SHR                 = 45,
 
         /// <summary>
-        /// SHL Reg1, Reg2            links Schieben, A = Reg1 << Reg2
+        /// SHL Reg1, Reg2            links Schieben, A = Reg1 &lt;&lt; Reg2
         /// Flags: Z, N, C hält letztes rausgeschobenes Bit
         /// </summary>
         SHL                 = 46,
