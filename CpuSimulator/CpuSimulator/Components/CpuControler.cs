@@ -266,12 +266,7 @@ namespace CpuSimulator.Components
                 //prepare MAR for RAM Access
                 if (currentInstruction.Type == InstructionTyp.MOV)
                 {
-                    if (currentInstruction.TargetParameter.Type == ParameterTyp.Address)
-                    {
-                        memoryRead = false;
-                        Ram.MAR = currentInstruction.TargetParameter.Content;
-                    }
-                    else if (currentInstruction.SourceParameter.Type == ParameterTyp.Address)
+                    if (currentInstruction.SourceParameter.Type == ParameterTyp.Address)
                     {
                         memoryRead = true;
                         Ram.MAR = currentInstruction.SourceParameter.Content;
@@ -279,20 +274,7 @@ namespace CpuSimulator.Components
                 }
                 else if (currentInstruction.Type == InstructionTyp.MOVI)
                 {
-                    if (currentInstruction.TargetParameter.Type == ParameterTyp.RegisterAddress)
-                    {
-                        memoryRead = false;
-                        try
-                        {
-                            Ram.MAR = registers[currentInstruction.TargetParameter.Register];
-                        }
-                        catch (Exception ex)
-                        {
-                            LogCpuError(ex);
-                            return false;
-                        }
-                    }
-                    else if (currentInstruction.SourceParameter.Type == ParameterTyp.RegisterAddress)
+                    if (currentInstruction.SourceParameter.Type == ParameterTyp.RegisterAddress)
                     {
                         memoryRead = true;
                         try
@@ -318,16 +300,9 @@ namespace CpuSimulator.Components
         /// <returns></returns>
         private bool RamRead()
         {
-            if (Ram.MAR != -1)
+            if (Ram.MAR != -1 && memoryRead)
             {
-                if (memoryRead)
-                {
-                    Ram.Read();
-                }
-                else
-                {
-                    Ram.Write();
-                }
+                Ram.Read();
             }
 
             //Reset MAR
@@ -397,14 +372,88 @@ namespace CpuSimulator.Components
         }
         
         private void ExecuteMoveIndirectCommand()
-        {
-            
+        {   
+             var sourceType = currentInstruction.SourceParameter.Type;
 
+             if (currentInstruction.TargetParameter.Type == ParameterTyp.RegisterAddress)
+             {
+                 //MOVI  [Ziel], Quelle 
+                 //prepare MAR for RAM Write
+                if(sourceType == ParameterTyp.Register)
+                {
+                    memoryRead = false;
+                    Ram.MAR = registers[currentInstruction.TargetParameter.Register];
+                    Ram.MDR = registers[currentInstruction.SourceParameter.Register];
+                }
+                else if (sourceType == ParameterTyp.Data)
+                {
+                    memoryRead = false;
+                    Ram.MAR = registers[currentInstruction.TargetParameter.Register];
+                    Ram.MDR = currentInstruction.SourceParameter.Content;
+                }
+             }
+             else
+             {
+                 //MOVI Ziel, [Quelle]  
+                 registers[currentInstruction.TargetParameter.Register] = Ram.MDR;
+             }
         }
 
         private void ExecuteMoveCommand()
         {
-            throw new NotImplementedException();
+            var targetType = currentInstruction.TargetParameter.Type;
+
+            switch (currentInstruction.SourceParameter.Type)
+            {
+                case ParameterTyp.Register:       
+                    if (targetType == ParameterTyp.Register)
+                    {
+                        registers[currentInstruction.TargetParameter.Register] = registers[currentInstruction.SourceParameter.Register];
+                    }
+                    else if (targetType == ParameterTyp.Address)
+                    {
+                        //prepare MAR for RAM Write
+                        memoryRead = false;
+                        Ram.MAR = currentInstruction.TargetParameter.Content;
+                        Ram.MDR = registers[currentInstruction.SourceParameter.Register];
+                    }
+                    break;
+
+                case ParameterTyp.Data:
+                    if (targetType == ParameterTyp.Register)
+                    {
+                        registers[currentInstruction.TargetParameter.Register] = currentInstruction.SourceParameter.Content;
+                    }
+                    else if (targetType == ParameterTyp.Address)
+                    {
+                        //prepare MAR for RAM Write
+                        memoryRead = false;
+                        Ram.MAR = currentInstruction.TargetParameter.Content;
+                        Ram.MDR = currentInstruction.SourceParameter.Content;
+                    }
+                    break; 
+
+                case ParameterTyp.Address:
+                    if (targetType == ParameterTyp.Register)
+                    {
+                        registers[currentInstruction.TargetParameter.Register] = Ram.MDR;
+                    }
+                    break;
+
+                case ParameterTyp.StackOffset:
+                    throw new NotImplementedException("Not Implmented - MOV from Stack");
+                    if (targetType == ParameterTyp.Register)
+                    {
+                        registers[currentInstruction.TargetParameter.Register] = registers[currentInstruction.SourceParameter.Register];
+                    }
+                    else if (targetType == ParameterTyp.Address)
+                    {
+                        memoryRead = false;
+                        Ram.MAR = currentInstruction.TargetParameter.Content;
+                        //Ram.MDR = currentInstruction.SourceParameter.Content;
+                    }
+                    break;
+            }
         }
 
         #endregion
@@ -449,14 +498,19 @@ namespace CpuSimulator.Components
             switch (currentInstruction.Type)
             {
                 case InstructionTyp.TRACE_DECODE:
+                    traceDecode = true;
                     break;
                 case InstructionTyp.TRACE_FETCH:
+                    traceFetch = true;
                     break;
                 case InstructionTyp.RDUMP:
+
                     break;
                 case InstructionTyp.SDUMP:
+
                     break;
                 case InstructionTyp.MDUMP:
+
                     break;
             }
         }
@@ -471,16 +525,9 @@ namespace CpuSimulator.Components
         /// <returns></returns>
         private bool RamWrite()
         {
-            if (Ram.MAR != -1)
+            if (Ram.MAR != -1 && !memoryRead)
             {
-                if (memoryRead)
-                {
-                    Ram.Read();
-                }
-                else
-                {
-                    Ram.Write();
-                }
+                Ram.Write();
             }
 
             //Reset MAR
