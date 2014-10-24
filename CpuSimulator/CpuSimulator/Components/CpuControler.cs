@@ -81,6 +81,9 @@ namespace CpuSimulator.Components
                                                     {'F', 0},
                                                     {'G', 0},
                                                     {'H', 0}};
+
+            traceDecode = false;
+            traceFetch = false;
     }
 
         #endregion
@@ -215,19 +218,30 @@ namespace CpuSimulator.Components
         /// </summary>
         /// <returns></returns>
         private bool Fetch()
-        { 
+        {
+            int traceProgrammCounter = 0;
+
+            if (traceFetch)
+            {
+                traceProgrammCounter = ProgramRom.PC;
+            }
+
             try
             {
                 //current instruction for programmROM
                 currentUnDecodedInstruction = ProgramRom.IR;
-                
-                //PC++
+
                 ProgramRom.PC++;
             }
             catch (Exception ex)
             {
                 LogCpuError(ex);
                 return false;
+            }
+
+            if (traceFetch)
+            {
+                LogTraceFetch(traceProgrammCounter);
             }
 
             return true;
@@ -289,6 +303,11 @@ namespace CpuSimulator.Components
                     }
                 }
 
+            }
+
+            if (traceDecode)
+            {
+                LogDecodeInstruction();
             }
 
             return true;
@@ -536,15 +555,56 @@ namespace CpuSimulator.Components
             return true;
         }
 
+        #region Logging Methods
+
         /// <summary>
         /// Logs the given exception as cpu error.
         /// </summary>
         /// <param name="ex">The ex.</param>
         private void LogCpuError(Exception ex)
         {
-            Output.WriteLine("### Error ###\n{0}\n{1}",
-                                ex.GetType().Name, ex.Message);
+            if (Output != null)
+            {
+                try
+                {
+                    Output.WriteLine("### Error ###\n{0}\n{1}",
+                        ex.GetType().Name, ex.Message);
+                }
+                catch { ;}
+            }
         }
 
+        /// <summary>
+        /// Logs the given exception as cpu error.
+        /// </summary>
+        private void LogDecodeInstruction()
+        {
+            if (Output != null)
+            {
+                try
+                {
+                    Output.WriteLine(currentInstruction.ToString());
+                }
+                catch { ;}
+            }
+        }
+
+        /// <summary>
+        /// Logs the trace fetch.
+        /// </summary>
+        /// <param name="traceProgrammCounter">The trace programm counter.</param>
+        private void LogTraceFetch(int traceProgrammCounter)
+        {
+            if (Output != null)
+            {
+                try
+                {
+                    Output.WriteLine("# {0:0000}: {1}", traceProgrammCounter, currentUnDecodedInstruction);
+                }
+                catch { ;}
+            }
+        }
+
+        #endregion
     }
 }

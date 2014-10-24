@@ -24,5 +24,21 @@ namespace CpuSimulator.Instructions
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            switch (Type)
+            {
+                case ParameterTyp.Address:
+                case ParameterTyp.Data:
+                case ParameterTyp.StackOffset:
+                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g"), Content);
+                case ParameterTyp.Register:
+                case ParameterTyp.RegisterAddress:
+                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g"), Register);
+            }
+
+            return string.Empty;
+        }
     }
 }

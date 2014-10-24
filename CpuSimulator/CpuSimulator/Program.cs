@@ -66,6 +66,9 @@ namespace CpuSimulator
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+
+            //wait for close
+            Console.ReadLine();
         }
 
         /// <summary>
