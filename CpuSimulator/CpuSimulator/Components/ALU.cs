@@ -1,5 +1,6 @@
 ﻿using System;
 using CpuSimulator.Instructions;
+using System.Collections;
 
 namespace CpuSimulator.Components
 {
@@ -104,18 +105,82 @@ namespace CpuSimulator.Components
                     catch { ;}
                     break;
                 case InstructionTyp.RRC:
-                    //TODO rotate right with carry
+                    //rotate right with carry
                     //result = (a >> b + 1) | (a << (32 - b + 1))
+                    R = RotateRightWithCarry(a, b);
                     break;
                 case InstructionTyp.RLC:
-                    //TODO rotate left with carry    
+                    // rotate left with carry    
                     //result = (a << b + 1) | (a >> (32 - b + 1));
+                    R = RotateLeftWithCarry(a, b);
                     break;
             }
 
             Negative = (R < 0) ? 1 : 0;
             Zero = (R == 0) ? 1 : 0;
-        } 
+        }
 
+
+        /// <summary>
+        /// Rotates the right with carry.
+        /// </summary>
+        /// <param name="a">A.</param>
+        /// <param name="b">The b.</param>
+        /// <returns></returns>
+        private int RotateRightWithCarry(int a, int b)
+        {
+            char[] bits = new char[32];
+            char[] movedbits = new char[32];
+
+            for (int i = 0; i < bits.Length; i++)
+            {
+                bits[i] = '0';
+                movedbits[i] = '0';
+            }
+
+            var temp = Convert.ToString(a, 2).ToCharArray();
+            temp.CopyTo(bits, 32 - temp.Length);
+
+            for (int i = 0; i < b; i++)
+            {
+                movedbits[0] = Carry == 1 ? '1' : '0';
+                Carry = Convert.ToInt32(bits[bits.Length - 1].ToString());
+                Array.Copy(bits, 0, movedbits, 1, bits.Length - 1);
+                bits = movedbits;
+            }
+
+            return Convert.ToInt32(new string(bits), 2);
+        }
+
+        /// <summary>
+        /// Rotates the left with carry.
+        /// </summary>
+        /// <param name="a">A.</param>
+        /// <param name="b">The b.</param>
+        /// <returns></returns>
+        private int RotateLeftWithCarry(int a, int b)
+        {
+            char[] bits = new char[32];
+            char[] movedbits = new char[32];
+
+            for (int i = 0; i < bits.Length; i++)
+            {
+                bits[i] = '0';
+                movedbits[i] = '0';
+            }
+
+            var temp = Convert.ToString(a, 2).ToCharArray();
+            temp.CopyTo(bits, 32 - temp.Length);
+
+            for (int i = 0; i < b; i++)
+            {
+                movedbits[movedbits.Length - 1] = Carry == 1 ? '1' : '0';
+                Carry = Convert.ToInt32(bits[bits.Length - 1].ToString());
+                Array.Copy(bits, 1, movedbits, 0, bits.Length - 1);
+                bits = movedbits;
+            }
+
+            return Convert.ToInt32(new string(bits), 2);
+        }
     }
 }

@@ -615,8 +615,12 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
+
                 //Stack Dump
                 Output.Write(Stack.ToString());
+
+                Console.ResetColor();
             }
         }
 
@@ -627,6 +631,7 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 try
                 {
                     Output.WriteLine("    {0}  {1}  {2}", "Binary".PadRight(32), "Hex".PadRight(16), "Int");
@@ -635,8 +640,7 @@ namespace CpuSimulator.Components
                         Output.WriteLine("{0}:  {1}  {2}  ({3})", key, Convert.ToString(registers[key], 2).PadLeft(32, '0'), Convert.ToString(registers[key], 16).PadLeft(16, '0'), registers[key]);
                     }
 
-                    Output.WriteLine(); 
-
+                    Output.WriteLine();
                     Output.WriteLine("{0}: {1}", "PC", ProgramRom.PC);
                     Output.WriteLine("{0}: {1}", "IR", ProgramRom.IR);
 
@@ -644,9 +648,12 @@ namespace CpuSimulator.Components
                                                            Alu.Carry == 1 ? "C" : string.Empty,
                                                            Alu.Negative == 1 ? "N" : string.Empty);
 
+                    Output.WriteLine();
                     Output.Flush();
                 }
                 catch { ;}
+
+                Console.ResetColor();
             }
         }
 
@@ -657,8 +664,12 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                
                 //Memory Dump
                 Output.Write(Ram.ToString());
+
+                Console.ResetColor();
             }
         }
 
@@ -703,12 +714,16 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                
                 try
                 {
                     Output.WriteLine("### Error ###\n{0}\n{1}",
                         ex.GetType().Name, ex.Message);
                 }
                 catch { ;}
+
+                Console.ResetColor();
             }
         }
 
@@ -753,7 +768,12 @@ namespace CpuSimulator.Components
             {
                 try
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    
                     Output.WriteLine("CPU HALT - RDUMP ".PadRight(32+16+15, '-'));
+                    
+                    Console.ResetColor();
+
                     Output.WriteLine();
                 }
                 catch { ;}
