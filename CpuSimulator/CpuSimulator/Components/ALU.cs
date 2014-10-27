@@ -67,11 +67,22 @@ namespace CpuSimulator.Components
                     break;
                 case InstructionTyp.SHR:
                     R = a >> b;
-                    //TODO Carry haelt letztes rausgeschobenes Bit
+                    //Carry haelt letztes rausgeschobenes Bit
+                    try
+                    {
+                        Carry = Convert.ToString(a, 2).ToCharArray()[(b - 1)];
+                    }
+                    catch { ;}
                     break;
                 case InstructionTyp.SHL:
                     R = a << b;
-                    //TODO Carry haelt letztes rausgeschobenes Bit
+                    //Carry haelt letztes rausgeschobenes Bit
+                    try
+                    {
+                        string bits = Convert.ToString(a, 2);
+                        Carry = bits.ToCharArray()[bits.Length - b];
+                    }
+                    catch { ;}
                     break;
                 case InstructionTyp.RR:
                     R = (a >> b) | (a << (32 - b));
