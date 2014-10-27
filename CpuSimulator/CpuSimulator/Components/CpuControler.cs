@@ -279,7 +279,7 @@ namespace CpuSimulator.Components
             // Init ALU Registers and MAR
             if (currentInstruction.GroupType == InstructionGroupTyp.Arithmetic)
             {
-                //TODO Prepare ALU register - if needed 
+                //Prepare ALU register - if needed 
             }
             else if (currentInstruction.GroupType == InstructionGroupTyp.Processor)
             {
@@ -615,7 +615,7 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
-                //TODO Stack Dump
+                //Stack Dump
                 Output.Write(Stack.ToString());
             }
         }
@@ -657,7 +657,7 @@ namespace CpuSimulator.Components
         {
             if (Output != null)
             {
-                //TODO Memory Dump
+                //Memory Dump
                 Output.Write(Ram.ToString());
             }
         }
