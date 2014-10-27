@@ -81,13 +81,13 @@
         POP                 = 24,
 
         /// <summary>
-        /// CALL @adr            <PUSH PC; PC = adr>
+        /// CALL @adr            &lt;PUSH PC; PC = adr&gt;
         ///                     @adr Adresse
         /// </summary>
         CALL                = 25,
 
         /// <summary>
-        /// RET                <POP PC>
+        /// RET                &lt;POP PC&gt;
         /// </summary>
         RET                 = 26,
 

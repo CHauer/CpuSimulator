@@ -1,27 +1,69 @@
-﻿namespace CpuSimulator.Components
+﻿using System;
+
+namespace CpuSimulator.Components
 {
     public class Stack
     {
-        public int BP
+        private int[] stackContent;
+
+        public Stack()
+        {
+            SP = 0;
+            stackContent = new int[256];
+        }
+
+        public int this[int offset]
         {
             get
             {
-                throw new System.NotImplementedException();
+                if ((SP - offset) < 0)
+                {
+                    throw new ArgumentOutOfRangeException("offset", "StackPointer out of range.");
+                }
+
+                //TODO Check if SP - 1 - offset? 
+                return stackContent[SP - offset];
             }
-            set
-            {
-            }
+        }
+
+        [Obsolete]
+        public int BP
+        {
+            get;
+            private set;
         }
 
         public int SP
         {
-            get
+            get;
+            private set;
+        }
+
+        public void Push(int item)
+        {
+            stackContent[SP] = item;
+
+            if (SP >= 255)
             {
-                throw new System.NotImplementedException();
+                throw new ArgumentOutOfRangeException("SP", "StackPointer Overflow");
             }
-            set
+
+            SP++;
+        }
+
+        public int Pop()
+        {
+            if (SP <= 0)
             {
+                throw new ArgumentOutOfRangeException("SP", "StackPointer out of range.");
             }
+
+            return stackContent[--SP];
+        }
+
+        public override string ToString()
+        {
+            return string.Empty;
         }
     }
 }

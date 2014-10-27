@@ -1,4 +1,5 @@
-﻿using CpuSimulator.Instructions;
+﻿using System;
+using CpuSimulator.Instructions;
 
 namespace CpuSimulator.Components
 {
@@ -42,12 +43,27 @@ namespace CpuSimulator.Components
                     R = a ^ b;
                     break;
                 case InstructionTyp.ADD:
-                    R = a + b;
-                    //TODO Carry wenn Ergebnis Ueberlauf verursacht
+                    try
+                    {
+                        R = a + b;
+                    }
+                    catch
+                    {
+                        //Carry wenn Ergebnis Ueberlauf verursacht
+                        Carry = 1;
+                    }
+                    
                     break;
                 case InstructionTyp.SUB:
-                    R = a - b;
-                    //TODO Carry wenn Ergebnis UEberlauf verursacht
+                    try
+                    {
+                        R = a - b;
+                    }
+                    catch
+                    {
+                        //Carry wenn Ergebnis UEberlauf verursacht
+                        Carry = 1;
+                    }
                     break;
                 case InstructionTyp.SHR:
                     R = a >> b;
@@ -59,11 +75,22 @@ namespace CpuSimulator.Components
                     break;
                 case InstructionTyp.RR:
                     R = (a >> b) | (a << (32 - b));
-                    //TODO C hält letztes rotiertes Bit (Result Bit 31)
+
+                    try
+                    {
+                        //C haelt letztes rotiertes Bit (Result Bit 31)
+                        Carry = Convert.ToInt32(Convert.ToString(R, 2)[31]);
+                    }
+                    catch { ;}
                     break;
                 case InstructionTyp.RL:
                     R = (a << b) | (a >> (32 - b));
-                    //TODO C hält letztes rotiertes Bit (Result Bit 0)
+                    try
+                    {
+                        //C haelt letztes rotiertes Bit (Result Bit 0)
+                        Carry = Convert.ToInt32(Convert.ToString(R, 2)[0]);
+                    }
+                    catch { ;}
                     break;
                 case InstructionTyp.RRC:
                     //TODO rotate right with carry
