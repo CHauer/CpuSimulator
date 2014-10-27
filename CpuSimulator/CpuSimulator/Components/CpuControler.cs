@@ -160,6 +160,10 @@ namespace CpuSimulator.Components
 
         #endregion
 
+        /// <summary>
+        /// Runs the cpu pipeline.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">ProgrammROM has to be initialized before of the CPU Start.</exception>
         public void RunCpu()
         {
             if (ProgramRom == null)
@@ -221,15 +225,16 @@ namespace CpuSimulator.Components
         {
             int traceProgrammCounter = 0;
 
-            if (traceFetch)
-            {
-                traceProgrammCounter = ProgramRom.PC;
-            }
-
             try
             {
                 //current instruction for programmROM
                 currentUnDecodedInstruction = ProgramRom.IR;
+
+                //save current programm counter
+                if (traceFetch)
+                {
+                    traceProgrammCounter = ProgramRom.PC;
+                }
 
                 ProgramRom.PC++;
             }
@@ -256,6 +261,7 @@ namespace CpuSimulator.Components
             try
             {
                 currentInstruction = Decoder.DecodeInstruction(currentUnDecodedInstruction);
+
                 if (currentInstruction == null)
                 {
                     return false;
@@ -273,7 +279,7 @@ namespace CpuSimulator.Components
             // Init ALU Registers and MAR
             if (currentInstruction.GroupType == InstructionGroupTyp.Arithmetic)
             {
-                //TODO Prepare ALU register?
+                //TODO Prepare ALU register - if needed 
             }
             else if (currentInstruction.GroupType == InstructionGroupTyp.Processor)
             {
@@ -321,7 +327,15 @@ namespace CpuSimulator.Components
         {
             if (Ram.MAR != -1 && memoryRead)
             {
-                Ram.Read();
+                try
+                {
+                    Ram.Read();
+                }
+                catch (Exception ex)
+                {
+                    LogCpuError(ex);
+                    return false;
+                }
             }
 
             //Reset MAR
@@ -338,7 +352,8 @@ namespace CpuSimulator.Components
         {
             bool returnValue = true;
 
-            switch(currentInstruction.GroupType){
+            switch (currentInstruction.GroupType)
+            {
                 case InstructionGroupTyp.Debugging:
                     HandleDebugInstruction();
                     break;
@@ -349,11 +364,12 @@ namespace CpuSimulator.Components
                     }
                     break;
                 case InstructionGroupTyp.Jump:
-                    break; 
+                    HandleJumpInstruction();
+                    break;
                 case InstructionGroupTyp.Processor:
                     HandleProcessorInstruction();
-                    break; 
-        }
+                    break;
+            }
 
             return returnValue;
         }
@@ -362,6 +378,9 @@ namespace CpuSimulator.Components
 
         #region Processor Instructions 
 
+        /// <summary>
+        /// Handles the processor instruction.
+        /// </summary>
         private void HandleProcessorInstruction()
         {
             switch (currentInstruction.Type)
@@ -374,22 +393,36 @@ namespace CpuSimulator.Components
                     break;
                 case InstructionTyp.HALT:
                     cpuRun = false;
+                    LogCpuEnd();
                     break;
                 case InstructionTyp.PUSH:
-
+                    switch (currentInstruction.ParameterOne.Type)
+                    {
+                        case ParameterTyp.Register:
+                            Stack.Push(registers[currentInstruction.ParameterOne.Register]);
+                            break;
+                        case ParameterTyp.Data:
+                            Stack.Push(currentInstruction.ParameterOne.Content);
+                            break;
+                    }
                     break;
                 case InstructionTyp.POP:
-
+                    registers[currentInstruction.ParameterOne.Register] = Stack.Pop();
                     break;
                 case InstructionTyp.CALL:
-                    throw new NotImplementedException();
+                    Stack.Push(ProgramRom.PC);
+                    ProgramRom.PC = currentInstruction.ParameterOne.Content;
                     break;
                 case InstructionTyp.RET:
-                    throw new NotImplementedException();
+                    //TODO Check if right?
+                    ProgramRom.PC = Stack.Pop();
                     break;
             }
         }
-        
+
+        /// <summary>
+        /// Executes the move indirect command.
+        /// </summary>
         private void ExecuteMoveIndirectCommand()
         {   
              var sourceType = currentInstruction.SourceParameter.Type;
@@ -418,6 +451,10 @@ namespace CpuSimulator.Components
              }
         }
 
+        /// <summary>
+        /// Executes the move command.
+        /// </summary>
+        /// <exception cref="System.NotImplementedException">Not Implmented - MOV from Stack</exception>
         private void ExecuteMoveCommand()
         {
             var targetType = currentInstruction.TargetParameter.Type;
@@ -460,16 +497,17 @@ namespace CpuSimulator.Components
                     break;
 
                 case ParameterTyp.StackOffset:
-                    throw new NotImplementedException("Not Implmented - MOV from Stack");
+                    //TODO validate MOV from Stack");
+
                     if (targetType == ParameterTyp.Register)
                     {
-                        registers[currentInstruction.TargetParameter.Register] = registers[currentInstruction.SourceParameter.Register];
+                        registers[currentInstruction.TargetParameter.Register] = Stack[currentInstruction.SourceParameter.Content];
                     }
                     else if (targetType == ParameterTyp.Address)
                     {
                         memoryRead = false;
                         Ram.MAR = currentInstruction.TargetParameter.Content;
-                        //Ram.MDR = currentInstruction.SourceParameter.Content;
+                        Ram.MDR = Stack[currentInstruction.SourceParameter.Content];
                     }
                     break;
             }
@@ -481,6 +519,19 @@ namespace CpuSimulator.Components
 
         private void HandleJumpInstruction()
         {
+            switch (currentInstruction.Type)
+            {
+                case InstructionTyp.JMP:
+                    break;
+                case InstructionTyp.JR:
+                    break;
+                case InstructionTyp.JRC:
+                    break;
+                case InstructionTyp.JRN:
+                    break;
+                case InstructionTyp.JRZ:
+                    break;
+            }
         }
 
         #endregion
@@ -512,6 +563,9 @@ namespace CpuSimulator.Components
 
         #region Debug Instructions
 
+        /// <summary>
+        /// Handles the debug instruction.
+        /// </summary>
         private void HandleDebugInstruction()
         {
             switch (currentInstruction.Type)
@@ -523,16 +577,74 @@ namespace CpuSimulator.Components
                     traceFetch = true;
                     break;
                 case InstructionTyp.RDUMP:
-
+                    RegisterDump();
                     break;
                 case InstructionTyp.SDUMP:
-
+                    StackDump();
                     break;
                 case InstructionTyp.MDUMP:
-
+                    MemoryDump();
                     break;
             }
         }
+
+        #region Dump Methods
+
+        /// <summary>
+        /// Dumps the stack content.
+        /// </summary>
+        private void StackDump()
+        {
+            if (Output != null)
+            {
+                //TODO Stack Dump
+                Output.Write(Stack.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Dumps the register content.
+        /// </summary>
+        private void RegisterDump()
+        {
+            if (Output != null)
+            {
+                try
+                {
+                    Output.WriteLine("    {0}  {1}  {2}", "Binary".PadRight(32), "Hex".PadRight(16), "Int");
+                    foreach (char key in registers.Keys)
+                    {
+                        Output.WriteLine("{0}:  {1}  {2}  ({3})", key, Convert.ToString(registers[key], 2).PadLeft(32, '0'), Convert.ToString(registers[key], 16).PadLeft(16, '0'), registers[key]);
+                    }
+
+                    Output.WriteLine(); 
+
+                    Output.WriteLine("{0}: {1}", "PC", ProgramRom.PC);
+                    Output.WriteLine("{0}: {1}", "IR", ProgramRom.IR);
+
+                    Output.WriteLine("Flags: {0} {1} {2}", Alu.Zero == 1 ? "Z" : string.Empty,
+                                                           Alu.Carry == 1 ? "C" : string.Empty,
+                                                           Alu.Negative == 1 ? "N" : string.Empty);
+
+                    Output.Flush();
+                }
+                catch { ;}
+            }
+        }
+
+        /// <summary>
+        /// Dumps the memory content.
+        /// </summary>
+        private void MemoryDump()
+        {
+            if (Output != null)
+            {
+                //TODO Memory Dump
+                Output.Write(Ram.ToString());
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -546,7 +658,15 @@ namespace CpuSimulator.Components
         {
             if (Ram.MAR != -1 && !memoryRead)
             {
-                Ram.Write();
+                try
+                {
+                    Ram.Write();
+                }
+                catch(Exception ex)
+                {
+                    LogCpuError(ex);
+                    return false;
+                }
             }
 
             //Reset MAR
@@ -603,6 +723,25 @@ namespace CpuSimulator.Components
                 }
                 catch { ;}
             }
+        }
+
+        /// <summary>
+        /// Logs the cpu end.
+        /// </summary>
+        private void LogCpuEnd()
+        {
+
+            if (Output != null)
+            {
+                try
+                {
+                    Output.WriteLine("CPU HALT - RDUMP ".PadRight(32+16+15, '-'));
+                    Output.WriteLine();
+                }
+                catch { ;}
+            }
+
+            RegisterDump();
         }
 
         #endregion
