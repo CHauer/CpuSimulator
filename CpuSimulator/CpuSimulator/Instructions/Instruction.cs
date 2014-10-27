@@ -112,12 +112,12 @@ namespace CpuSimulator.Instructions
 
             if (parameterOne != null)
             {
-                builder.Append(String.Format("       Parameter 1: {0}", parameterOne.ToString()));
+                builder.Append(String.Format("       Parameter 1:   {0}", parameterOne.ToString()));
             }
             if (parameterTwo != null)
             {
                 builder.AppendLine();
-                builder.Append(String.Format("       Parameter 2: {0}", parameterTwo.ToString()));
+                builder.Append(String.Format("       Parameter 2:   {0}", parameterTwo.ToString()));
             }
 
             return builder.ToString();

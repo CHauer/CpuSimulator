@@ -32,10 +32,10 @@ namespace CpuSimulator.Instructions
                 case ParameterTyp.Address:
                 case ParameterTyp.Data:
                 case ParameterTyp.StackOffset:
-                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g"), Content);
+                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g").PadRight(10), Content.ToString().PadRight(15));
                 case ParameterTyp.Register:
                 case ParameterTyp.RegisterAddress:
-                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g"), Register);
+                    return String.Format("Typ: {0} Value: {1}", Type.ToString("g").PadRight(10), Register.ToString().PadRight(15));
             }
 
             return string.Empty;

@@ -454,7 +454,6 @@ namespace CpuSimulator.Components
         /// <summary>
         /// Executes the move command.
         /// </summary>
-        /// <exception cref="System.NotImplementedException">Not Implmented - MOV from Stack</exception>
         private void ExecuteMoveCommand()
         {
             var targetType = currentInstruction.TargetParameter.Type;
@@ -497,7 +496,7 @@ namespace CpuSimulator.Components
                     break;
 
                 case ParameterTyp.StackOffset:
-                    //TODO validate MOV from Stack");
+                    //TODO validate MOV from Stack
 
                     if (targetType == ParameterTyp.Register)
                     {
@@ -517,19 +516,38 @@ namespace CpuSimulator.Components
 
         #region Jump Instructions
 
+        /// <summary>
+        /// Handles the jump instruction.
+        /// </summary>
         private void HandleJumpInstruction()
         {
             switch (currentInstruction.Type)
             {
                 case InstructionTyp.JMP:
+                    ProgramRom.PC = currentInstruction.ParameterOne.Content;
                     break;
                 case InstructionTyp.JR:
+                    ProgramRom.PC += currentInstruction.ParameterOne.Content;
                     break;
                 case InstructionTyp.JRC:
+                    if (Alu.Carry == 1)
+                    {
+                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                    }
+
                     break;
                 case InstructionTyp.JRN:
+                    if (Alu.Negative == 1)
+                    {
+                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                    }
+
                     break;
                 case InstructionTyp.JRZ:
+                    if (Alu.Zero == 1)
+                    {
+                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                    }
                     break;
             }
         }

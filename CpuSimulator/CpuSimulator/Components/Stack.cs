@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace CpuSimulator.Components
 {
@@ -63,7 +64,22 @@ namespace CpuSimulator.Components
 
         public override string ToString()
         {
-            return string.Empty;
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendFormat("     {0}  {1}  {2}", "Binary".PadRight(32), "Hex".PadRight(16), "Int");
+            builder.AppendLine();
+
+            for (int i = 0; i < SP; i++)
+            {
+                builder.AppendFormat("{0:000}  {1}  {2}  ({3})",
+                                                    i, Convert.ToString(stackContent[i], 2).PadLeft(32, '0'),
+                                                    Convert.ToString(stackContent[i], 16).PadLeft(16, '0'),
+                                                    stackContent[i]);
+                builder.AppendLine();
+            }
+            builder.AppendLine();
+
+            return builder.ToString();
         }
     }
 }
