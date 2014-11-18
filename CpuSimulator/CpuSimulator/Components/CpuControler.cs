@@ -527,26 +527,26 @@ namespace CpuSimulator.Components
                     ProgramRom.PC = currentInstruction.ParameterOne.Content;
                     break;
                 case InstructionTyp.JR:
-                    ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                    ProgramRom.PC += (currentInstruction.ParameterOne.Content -1);
                     break;
                 case InstructionTyp.JRC:
                     if (Alu.Carry == 1)
                     {
-                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                        ProgramRom.PC += (currentInstruction.ParameterOne.Content -1);
                     }
 
                     break;
                 case InstructionTyp.JRN:
                     if (Alu.Negative == 1)
                     {
-                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                        ProgramRom.PC += (currentInstruction.ParameterOne.Content - 1);
                     }
 
                     break;
                 case InstructionTyp.JRZ:
                     if (Alu.Zero == 1)
                     {
-                        ProgramRom.PC += currentInstruction.ParameterOne.Content;
+                        ProgramRom.PC += (currentInstruction.ParameterOne.Content -1);
                     }
                     break;
             }

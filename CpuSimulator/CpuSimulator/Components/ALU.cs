@@ -47,6 +47,7 @@ namespace CpuSimulator.Components
                     try
                     {
                         R = a + b;
+                        Carry = 0;
                     }
                     catch
                     {
@@ -59,6 +60,7 @@ namespace CpuSimulator.Components
                     try
                     {
                         R = a - b;
+                        Carry = 0;
                     }
                     catch
                     {
@@ -113,6 +115,31 @@ namespace CpuSimulator.Components
                     // rotate left with carry    
                     //result = (a << b + 1) | (a >> (32 - b + 1));
                     R = RotateLeftWithCarry(a, b);
+                    break;
+                case InstructionTyp.DIV:
+                    double d = (double)a / b;
+                    int even = (int)d;
+
+                    Carry = 0;
+                    if (d - even > 0)
+                    {
+                        Carry = 1;
+                    }
+
+                    //int / int => int 
+                    R = a / b;
+                    break;
+                case InstructionTyp.MUL:
+                    try
+                    {
+                        R = a * b;
+                        Carry = 0;
+                    }
+                    catch 
+                    {
+                        Carry = 1;
+                    }
+                    
                     break;
             }
 
