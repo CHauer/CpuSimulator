@@ -64,6 +64,9 @@
     <None Include="CpuSimulator.ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestGgtProgram.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestPrimProgram.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -524,7 +524,7 @@ namespace CpuSimulator.Components
             switch (currentInstruction.Type)
             {
                 case InstructionTyp.JMP:
-                    ProgramRom.PC = currentInstruction.ParameterOne.Content;
+                    ProgramRom.PC = currentInstruction.ParameterOne.Content - 1;
                     break;
                 case InstructionTyp.JR:
                     ProgramRom.PC += (currentInstruction.ParameterOne.Content -1);
