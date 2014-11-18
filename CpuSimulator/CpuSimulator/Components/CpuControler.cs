@@ -261,11 +261,6 @@ namespace CpuSimulator.Components
             try
             {
                 currentInstruction = Decoder.DecodeInstruction(currentUnDecodedInstruction);
-
-                if (currentInstruction == null)
-                {
-                    return false;
-                }
             }
             catch (Exception ex)
             {
