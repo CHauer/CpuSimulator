@@ -191,8 +191,24 @@
         /// RLC Reg1, Reg2            rotiere links über Carry
         /// Flags: Z, N, C
         /// </summary>
-        RLC                 = 50 
+        RLC                 = 50,
 
+        /*************************
+         * Extended ALU Instructions
+         *************************/
+
+        /// <summary>
+        /// DIV Reg1, Reg2            Dividiere Reg1 durch Reg2
+        /// Falls Rest: C gesetzt
+        /// Flags: Z, N, C
+        /// </summary>
+        DIV                 = 51,
+
+        /// <summary>
+        /// MUL Reg1, Reg2            Multipliziere Reg1 mal Reg2
+        /// Flags: Z, N, C wenn Owerflow
+        /// </summary>
+        MUL                 = 52
 
     }
 }

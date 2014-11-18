@@ -57,9 +57,11 @@ namespace CpuSimulator.Components
                 {InstructionTyp.SHR,            2},
                 {InstructionTyp.SHL,            2},
                 {InstructionTyp.RR,             2},
-                {InstructionTyp.RL,            2},
+                {InstructionTyp.RL,             2},
                 {InstructionTyp.RRC,            2},
                 {InstructionTyp.RLC,            2},
+                {InstructionTyp.DIV,            2},
+                {InstructionTyp.MUL,            2}
             };
 
             instructionValidationPattern = new Dictionary<InstructionTyp, string>()
@@ -87,6 +89,8 @@ namespace CpuSimulator.Components
                 {InstructionTyp.RL,            @"RL\s+[A-H]\s*,\s*[A-H]"},
                 {InstructionTyp.RRC,           @"RRC\s+[A-H]\s*,\s*[A-H]"},
                 {InstructionTyp.RLC,           @"RLC\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.DIV,           @"DIV\s+[A-H]\s*,\s*[A-H]"},
+                {InstructionTyp.MUL,           @"MUL\s+[A-H]\s*,\s*[A-H]"},
             };
         }
 

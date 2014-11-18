@@ -1,0 +1,28 @@
+﻿TRACE_FETCH
+TRACE_DECODE
+MOV C, #100		 //End Condition
+MOV D, #2		 //Erste Primzahl
+MOV E, #1	     //Memory Save Address
+MOVI [E], #1     //Primzahl 1
+MOV H, #1        //Incrementer
+RDUMP
+MOV E, #1        //start: Runner = 1
+ADD E, H         //Runner++
+MOV E, A         //Save Runner++
+SUB D, E         //IF Runner == Primzahl
+JRZ #12          //IF 0 jump to Endcondition
+DIV D, E         //DIV Primzahl / Runner
+SUB D, H
+MOVI [E], A      //Primzahl save to memory
+ADD E, H         //Memory Save ++
+MOV E, A
+RDUMP
+JRC #2           //IF Rest jump to Primzahl++
+JMP @9           //jump to start  
+ADD D, H         //Primzahl++
+MOV D, A
+SUB D, C         //Endcondition - if Zero end
+JRZ #2           //Jump to MDUMP
+JMP @9           //Jump to Start 
+MDUMP
+HALT
