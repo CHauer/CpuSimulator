@@ -138,7 +138,7 @@ namespace CpuSimulator.Components
             //check if instruction is valid 
             if (!ValidateInstruction(irCode, undecoded))
             {
-                return null;
+                throw new InvalidOperationException(String.Format("The command {0} is invalid.", undecoded));
             }
 
             //Create Instruction obejct and set parameters
