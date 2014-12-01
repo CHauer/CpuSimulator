@@ -46,7 +46,7 @@ namespace CpuSimulator.Components
                 case InstructionTyp.ADD:
                     try
                     {
-                        unchecked
+                        checked
                         {
                             R = a + b;
                         }
@@ -63,7 +63,7 @@ namespace CpuSimulator.Components
                 case InstructionTyp.SUB:
                     try
                     {
-                        unchecked
+                        checked
                         {
                             R = a - b;
                         }
@@ -141,7 +141,7 @@ namespace CpuSimulator.Components
                 case InstructionTyp.MUL:
                     try
                     {
-                        unchecked
+                        checked
                         {
                             R = a * b;
                         }
