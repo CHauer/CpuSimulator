@@ -46,27 +46,36 @@ namespace CpuSimulator.Components
                 case InstructionTyp.ADD:
                     try
                     {
-                        R = a + b;
+                        unchecked
+                        {
+                            R = a + b;
+                        }
                         Carry = 0;
                     }
-                    catch
+                    catch (OverflowException oEx)
                     {
                         //Carry wenn Ergebnis Ueberlauf verursacht
                         Carry = 1;
                     }
+                    catch { ;}
                     
                     break;
                 case InstructionTyp.SUB:
                     try
                     {
-                        R = a - b;
+                        unchecked
+                        {
+                            R = a - b;
+                        }
                         Carry = 0;
                     }
-                    catch
+                    catch (OverflowException oEx)
                     {
                         //Carry wenn Ergebnis UEberlauf verursacht
                         Carry = 1;
                     }
+                    catch { ;}
+
                     break;
                 case InstructionTyp.SHR:
                     R = a >> b;
@@ -132,7 +141,10 @@ namespace CpuSimulator.Components
                 case InstructionTyp.MUL:
                     try
                     {
-                        R = a * b;
+                        unchecked
+                        {
+                            R = a * b;
+                        }
                         Carry = 0;
                     }
                     catch 

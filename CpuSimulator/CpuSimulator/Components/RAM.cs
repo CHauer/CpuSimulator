@@ -10,7 +10,7 @@ namespace CpuSimulator.Components
         public RAM()
         {
             memory = new int[256];
-        }
+        } 
 
         public int MAR
         {
