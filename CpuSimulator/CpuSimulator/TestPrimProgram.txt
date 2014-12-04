@@ -1,9 +1,9 @@
 ﻿TRACE_FETCH
 TRACE_DECODE
-MOV B, #1     //Speicheradr.
+MOV B, #2     //Speicheradr.
 MOV C, #101   //Max Value 100
 MOV D, #1     //INC: Incrementer
-MOVI [B], #1  //Save To Memory
+MOVI [B], B   //Save To Memory
 ADD B, D      //Increment Speicheradr.
 MOV B, A      //Save back Speicheradr.
 SUB C, B      //IF Speicheradr == 100
