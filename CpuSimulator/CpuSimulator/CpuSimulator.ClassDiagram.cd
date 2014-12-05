@@ -12,6 +12,22 @@
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="Ram" Type="CpuSimulator.Components.RAM" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="4.875" />
+        <Point X="3.125" Y="4.875" />
+        <Point X="3.125" Y="2.888" />
+        <Point X="2" Y="2.888" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Decoder" Type="CpuSimulator.Components.Decoder" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="4.75" />
+        <Point X="5.375" Y="4.75" />
+        <Point X="5.375" Y="2.758" />
+        <Point X="6.25" Y="2.758" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>ABAJAAgBAAABCQQEAAMIAQAggAAQABAECaZQQABACQg=</HashCode>
       <FileName>Components\CpuControler.cs</FileName>
@@ -56,7 +72,7 @@
     <Position X="9" Y="0.75" Width="1.5" />
     <AssociationLine Name="TargetParameter" Type="CpuSimulator.Instructions.Parameter">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.349" Y="0.289" />
+        <Position X="-1.516" Y="0.174" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
