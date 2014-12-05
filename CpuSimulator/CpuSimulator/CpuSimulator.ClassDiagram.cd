@@ -95,14 +95,14 @@
       <Property Name="Type" />
     </ShowAsAssociation>
   </Class>
-  <Enum Name="CpuSimulator.Instructions.InstructionTyp" Collapsed="true">
-    <Position X="11.75" Y="0.75" Width="1.75" />
+  <Enum Name="CpuSimulator.Instructions.InstructionTyp">
+    <Position X="13.75" Y="0.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>CAAAEAQACASAgIAAAACAAACgQE1IAAAAAAAAAAAADQE=</HashCode>
       <FileName>Instructions\InstructionTyp.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CpuSimulator.Instructions.InstructionGroupTyp" Collapsed="true">
+  <Enum Name="CpuSimulator.Instructions.InstructionGroupTyp">
     <Position X="11.75" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAABIAAAAAAAAAAAAAAAAAAEEAAA=</HashCode>
