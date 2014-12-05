@@ -13,6 +13,15 @@ namespace CpuSimulator.Components
             stackContent = new int[256];
         }
 
+        /// <summary>
+        /// Gets the <see cref="System.Int32"/> with the specified offset.
+        /// </summary>
+        /// <value>
+        /// The <see cref="System.Int32"/>.
+        /// </value>
+        /// <param name="offset">The offset.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">offset;StackPointer out of range.</exception>
         public int this[int offset]
         {
             get
