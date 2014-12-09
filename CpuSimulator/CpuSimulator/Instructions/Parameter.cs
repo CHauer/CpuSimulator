@@ -5,26 +5,53 @@ using System.Text;
 
 namespace CpuSimulator.Instructions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Parameter
     {
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
         public int Content
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the type.
+        /// </summary>
+        /// <value>
+        /// The type.
+        /// </value>
         public ParameterTyp Type
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the register.
+        /// </summary>
+        /// <value>
+        /// The register.
+        /// </value>
         public char Register
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             switch (Type)

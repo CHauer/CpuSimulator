@@ -3,10 +3,19 @@ using System.Text;
 
 namespace CpuSimulator.Components
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Stack
     {
+        /// <summary>
+        /// The stack content
+        /// </summary>
         private int[] stackContent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Stack"/> class.
+        /// </summary>
         public Stack()
         {
             SP = 0;
@@ -36,6 +45,12 @@ namespace CpuSimulator.Components
             }
         }
 
+        /// <summary>
+        /// Gets the bp.
+        /// </summary>
+        /// <value>
+        /// The bp.
+        /// </value>
         [Obsolete]
         public int BP
         {
@@ -43,12 +58,23 @@ namespace CpuSimulator.Components
             private set;
         }
 
+        /// <summary>
+        /// Gets the sp.
+        /// </summary>
+        /// <value>
+        /// The sp.
+        /// </value>
         public int SP
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Pushes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">SP;StackPointer Overflow</exception>
         public void Push(int item)
         {
             stackContent[SP] = item;
@@ -61,6 +87,11 @@ namespace CpuSimulator.Components
             SP++;
         }
 
+        /// <summary>
+        /// Pops this instance.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">SP;StackPointer out of range.</exception>
         public int Pop()
         {
             if (SP <= 0)
@@ -71,6 +102,12 @@ namespace CpuSimulator.Components
             return stackContent[--SP];
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

@@ -5,35 +5,65 @@ namespace CpuSimulator.Components
 {
     public class RAM
     {
+        /// <summary>
+        /// The memory
+        /// </summary>
         private int[] memory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RAM"/> class.
+        /// </summary>
         public RAM()
         {
             memory = new int[256];
-        } 
+        }
 
+        /// <summary>
+        /// Gets or sets the mar.
+        /// </summary>
+        /// <value>
+        /// The mar.
+        /// </value>
         public int MAR
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the MDR.
+        /// </summary>
+        /// <value>
+        /// The MDR.
+        /// </value>
         public int MDR
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Reads this instance.
+        /// </summary>
         public void Read()
         {
             MDR = memory[MAR];
         }
 
+        /// <summary>
+        /// Writes this instance.
+        /// </summary>
         public void Write()
         {
             memory[MAR] = MDR;
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
