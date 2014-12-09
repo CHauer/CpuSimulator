@@ -6,30 +6,60 @@ namespace CpuSimulator.Components
 {
     public class ALU
     {
+        /// <summary>
+        /// Gets or sets the r.
+        /// </summary>
+        /// <value>
+        /// The r.
+        /// </value>
         public int R
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the carry.
+        /// </summary>
+        /// <value>
+        /// The carry.
+        /// </value>
         public int Carry
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the zero.
+        /// </summary>
+        /// <value>
+        /// The zero.
+        /// </value>
         public int Zero
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the negative.
+        /// </summary>
+        /// <value>
+        /// The negative.
+        /// </value>
         public int Negative
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Executes the specified a.
+        /// </summary>
+        /// <param name="a">A.</param>
+        /// <param name="b">The b.</param>
+        /// <param name="instruction">The instruction.</param>
         public void Execute(int a, int b, InstructionTyp instruction)
         {
             switch (instruction)

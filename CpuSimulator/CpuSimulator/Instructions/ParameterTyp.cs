@@ -5,6 +5,9 @@ using System.Text;
 
 namespace CpuSimulator.Instructions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum ParameterTyp
     {
         Data,
