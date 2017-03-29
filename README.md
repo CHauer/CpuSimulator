@@ -2,11 +2,11 @@
 
 Simple CPU Simulator (Assembler like Language) implemented with C# 
 
-##Architecture
+## Architecture
 
 ![Architecture](docs/CpuSimulatorArchitecture.png)
 
-##Sample Program
+## Sample Program
 
 ```
 ﻿TRACE_FETCH
@@ -34,6 +34,6 @@ MOV @1, C         //SAVEC:
 MDUMP             //END: 
 HALT
 ```
-
+---
 FH Wiener Neustadt - Master Software Architecture and Design 
 Student-Project 
